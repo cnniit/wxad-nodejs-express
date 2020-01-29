@@ -1,0 +1,31 @@
+<%- include ../public/header.ejs%>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <%- include  ../public/aslideleft.ejs%>
+			
+          
+        </div>
+        <div class="col-sm-10">
+            <ol class="breadcrumb">
+                <li class="active">商品管理
+                </li>
+                <li class="active">商品列表
+                </li>
+            </ol>
+            <div class="panel panel-default">
+              <% list.forEach(function(item){%>
+                重命名目录<span style="color:blue;font-size: larger;"><%=item.destdir %></span><span style="color:green;font-size: larger;"><%=item.link %></span>成功！<br>
+            <% }) %>
+                <!-- '重命名目录<span style="color:blue;">'.$destdir.'</span><span style="color:red">/'.$arr[$i][0].'</span>失败！<br>';} -->
+                
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

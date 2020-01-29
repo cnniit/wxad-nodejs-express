@@ -1,0 +1,195 @@
+<%- include ../public/header.ejs%>
+<script src="/bootstrap/js/jquery-1.10.1.js"></script>
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.css" />
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <script>
+        var lines = 1;
+
+        $(document).ready(function () {
+            $("#addrow").click(function () {
+                $("tr:last-child").clone().appendTo("table");
+                lines++;
+            });
+            $("#detrow").click(function () {
+                var index = $("tr:last-child").index();
+                if(index>0){
+                    $("tr:last-child").remove();
+                    lines--;
+                }else{
+                    alert("Can not delete the first row！");
+                    return false;
+                }
+                
+                //$("table tr:not(:first):last").remove();
+            });
+        });
+
+    </script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+
+            <%- include ../public/aslideleft.ejs%>
+          
+        </div>
+        <div class="col-sm-10">
+            <ol class="breadcrumb">
+                <li class="active">广告管理
+                </li>
+                <li class="active"><%=list%>
+                </li>
+            </ol>
+            <div class="panel panel-default">
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#home" data-toggle="tab">
+                             单个
+                        </a>
+                    </li>
+                    <li><a href="#s2" data-toggle="tab">多个</a></li>
+                    <li><a href="#s3" data-toggle="tab">索引方式</a></li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="home">
+                        <p></p>
+                        <form action="/admin/wjj/singlern">
+                            <label for="avatar">Fill a source filepath:</label>
+                            <select id="srcpath" name="srcpath" style="width:400px">
+                              <option value ="D:\a">a</option>
+                              <option value ="D:\WEB\zh.de3wa.com\czs30\000">czs30\000</option>
+                              <option value="D:\WEB\zh.de3wa.com\jj\00">jj\00</option>
+                              <option value="D:\WEB\zh.de3wa.com\jj\000">jj\000</option>
+                              <option value="D:\WEB\zh.de3wa.com\d\000">d\000</option>
+                              <option value="D:\WEB\zh.de3wa.com\e\000">e\000</option>
+                              <option value="D:\WEB\zh.de3wa.com\g\000">g\000</option>
+                              <option value="D:\WEB\zh.de3wa.com\000czs30bpc">000czs30bpc</option>
+                              <option value="D:\WEB\zh.de3wa.com\000jjbpc">000jjbpc</option>
+                              
+                            </select><br>
+                        <!-- <input type="text" id="srcpath" name="srcpath" autocomplete="off" value="D:\WEB\zh.de3wa.com\czs30\00" style="width:400px" /><p></p> -->
+                        <label for="avatar">Fill a destin filedir:</label>
+                        <input type="text"  name="destdir" autocomplete="off" value="D:\WEB\suabao" style="color:#999;width:400px" /><p></p>
+                        
+                        <label for="avatar">Fill a new filename:</label>
+                        <input type="text" id="newfilename" name="newfilename" autocomplete="off" style="width:400px" /><p></p>
+                        <!-- <input type="submit"/> -->
+                        <input type="button" class="btn" value="Rename"  onClick="bt_submit_onclick()"/> 
+                    </form>
+                    </div>
+                    <div class="tab-pane fade" id="s2">
+                        <p></p>
+                            <form action="/admin/wjj/multirn" method="post">
+                                <label for="avatar">Fill a source filepath:</label>
+                                <select id="srcpath3" name="srcpath" style="width:400px">
+                                  <option value ="D:\a">a</option>
+                                </select><br>
+                                <!-- <input type="text" id="srcpath3" name="srcpath" autocomplete="off" value="D:\WEB\zh.de3wa.com\czs30\00" style="width:400px" /><p></p> -->
+                                <label for="avatar">Fill a destin filedir:</label>
+                                <input type="text"  name="destdir" autocomplete="off" value="D:\" style="color:#999;width:400px" /><p></p>
+                                <input type="button" id="addrow" value="ADD ONE"/>
+                                <table>
+                                    <tr>
+                                        <td>Link:</td>
+                                        <td><input type="text"  name="links[]" autocomplete="off"  style="width:400px"></td>
+                                        <td><input type="hidden" id="links" name="links"></td>
+                                    </tr>
+                                </table>
+                                
+                                <input type="button" id="detrow" value="DELETE ONE "/>
+
+                            <input type="button" class="btn" value="RENAME ALL"  onClick="bt2_submit_onclick()"/> 
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="s3">
+                        <p></p>
+                            <form action="/admin/wjj/indexrn" method="post">
+                                <label for="avatar">Fill a source filepath:</label>
+                                <select id="srcpath4" name="srcpath" style="width:400px">
+                                  <option value ="D:\a">a</option>
+                                  <option value ="D:\WEB\zh.de3wa.com\czs30\000">czs30\000</option>
+                                  <option value="D:\WEB\zh.de3wa.com\jj\00">jj\00</option>
+                                  <option value="D:\WEB\zh.de3wa.com\jj\000">jj\000</option>
+                                  <option value="D:\WEB\zh.de3wa.com\d\000">d\000</option>
+                                  <option value="D:\WEB\zh.de3wa.com\e\000">e\000</option>
+                                  <option value="D:\WEB\zh.de3wa.com\g\000">g\000</option>
+                                  <option value="D:\WEB\zh.de3wa.com\000czs30bpc">000czs30bpc</option>
+                                  <option value="D:\WEB\zh.de3wa.com\000jjbpc">000jjbpc</option>
+                                  <option value="D:\WEB\zh.de3wa.com\czs60\00">czs60\00无CNZZ</option>
+                                </select><br>
+                                <!-- <input type="text" id="srcpath4" name="srcpath" autocomplete="off" value="D:\WEB\zh.de3wa.com\czs30\00" style="width:400px" /><p></p> -->
+                                <label for="avatar">Fill a destin filedir:</label>
+                                <input type="text"  name="destdir" autocomplete="off" value="D:\" style="color:#999;width:400px" /><p></p>
+                                From:<input type="text" id="fromindex" name="fromindex" autocomplete="off" width="100px" />
+                                To:<input type="text" id="toindex" name="toindex" autocomplete="off" width="100px" />
+                                
+                            <input type="button" class="btn" value="RENAME ALL"  onClick="bt3_submit_onclick()"/> 
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <!--
+                列表展示
+            -->
+            <div class="table-responsive">
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    function bt_submit_onclick(){
+        var obj = document.getElementById('newfilename').value;
+        var obj2 = document.getElementById('srcpath').value;
+        if(obj== "undefined" || obj == null || obj == ""||obj2== "undefined" || obj2 == null || obj2 == ""){
+            return false;
+        }else{
+            document.getElementsByTagName('form')[0].submit();
+        }
+    }
+    
+    function bt2_submit_onclick(){
+        var links = document.getElementsByName('links[]');
+        var obj3 = document.getElementById('srcpath3').value;
+        var tmpvalcount = 0,tmpvals=[];
+        for(var i=0;i<links.length;i++)
+        {
+            var obj = links[i].value;
+            if(obj== "undefined" || obj == null || obj == ""){
+                continue;
+            }
+            tmpvalcount++;
+            tmpvals.push(obj)
+        }
+        
+        if(lines!=tmpvalcount||obj3== "undefined" || obj3 == null || obj3 == ""){
+            alert('Please fill in all the blanks！')
+                return false;
+        }
+        document.getElementById('links').value = JSON.stringify(tmpvals)
+        document.getElementsByTagName('form')[1].submit();
+        
+    }
+    function bt3_submit_onclick(){
+        var obj2 = document.getElementById('srcpath4').value;
+        var fromindex = document.getElementById('fromindex').value;
+        var toindex = document.getElementById('toindex').value;
+        if(fromindex>toindex){
+            return false;
+        }
+        if(obj2== "undefined" || obj2 == null || obj2 == ""
+        ||fromindex== "undefined" || fromindex == null || fromindex == ""||toindex== "undefined" || toindex == null || toindex == ""){
+            return false;
+        }else{
+            document.getElementsByTagName('form')[2].submit();
+        }
+    }
+    function bt4_submit_onclick(){
+        location.href="testmaxdir.php";
+        
+    }
+</script>
+</body>
+</html>
