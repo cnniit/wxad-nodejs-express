@@ -31,12 +31,13 @@ http://vue.npmjs.top/testdir/2/
 -   [x] 基础管理
 -   [x] 代码管理
 
+测试新文件夹路径/home/dist
 
 ## 安装步骤
 
 ```
-git clone https://github.com/cnniit/wxad-nodejs-element-ui.git      // 把模板下载到本地
-cd wxad-nodejs-element-ui    // 进入模板目录
+git clone https://github.com/cnniit/wxad-nodejs-express.git      // 把模板下载到本地
+cd wxad-nodejs-express    // 进入模板目录
 npm install         // 安装项目依赖，等待安装完成之后，安装失败可用 cnpm 或 yarn
 
 // 开启服务器，浏览器访问 http://localhost:8080

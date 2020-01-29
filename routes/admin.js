@@ -7,11 +7,6 @@ var router = express.Router(); /*¿ÉÊ¹ÓÃ express.Router Àà´´½¨Ä£¿é»¯¡¢¿É¹ÒÔØµÄÂ·Ó
 //ºóÌ¨µÄÂ·ÓÉ  ËùÓĞµÄºóÌ¨´¦Àí¶¼Òª¾­¹ıÕâÀï
 
 var login = require("./admin/login.js");
-var product = require("./admin/product.js");
-var user = require("./admin/user.js");
-var wjj = require("./admin/wjj.js");
-var dm = require("./admin/dm.js");
-var jc = require("./admin/jc.js");
 
 /*È¨ÏŞÅĞ¶Ï*/
 router.use(function(req, res, next) {
@@ -39,10 +34,5 @@ router.use(function(req, res, next) {
 //ÅäÖÃÂ·ÓÉ
 
 router.use("/login", login);
-router.use("/product", product);
-router.use("/user", user);
-router.use("/wjj", wjj);
-router.use("/dm", dm);
-router.use("/jc", jc);
 
 module.exports = router; /*±©Â¶Õâ¸ö routerÄ£¿é*/
