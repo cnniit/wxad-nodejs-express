@@ -26,6 +26,8 @@ git clone https://github.com/cnniit/wxad-nodejs-express.git      // 把模板下
 cd wxad-nodejs-express    // 进入模板目录
 npm install         // 安装项目依赖，等待安装完成之后，安装失败可用 cnpm 或 yarn
 
+启动MySQL数据库，导入数据库文件 wxad-express-mysql.sql //需同时修改wxad-nodejs-express/modules/mysqlDB.js中数据库连接用户名、密码
+
 // 开启服务器
 node app.js
 
