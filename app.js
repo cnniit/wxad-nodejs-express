@@ -32,6 +32,8 @@ var apiv1 = require("./routes/apiv1.js");
 
 //配置public目录为我们的静态资源目录
 app.use(express.static("public"));
+app.use(express.static("gen-js"));
+app.use('/apidoc',express.static("apidoc"));//apidoc -i routes -o apidoc
 
 app.use("/upload", express.static("upload"));
 

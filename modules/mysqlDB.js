@@ -3,13 +3,13 @@
  */
 var mysql = require("mysql");
 
-//½¨Á¢Á¬½ÓµÄ·½·¨
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÓµÄ·ï¿½ï¿½ï¿½
 
 function __connection() {
   var connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "root",
+    password: "rootroot",
     database: "koacms"
   });
   connection.connect();
@@ -17,16 +17,16 @@ function __connection() {
 }
 
 exports.query = function(sql, parmas = null) {
-  //1.»ñÈ¡Êý¾Ý¿âÁ¬½Ó¶ÔÏó
+  //1.ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½Ó¶ï¿½ï¿½ï¿½
   var connection = __connection();
   return new Promise(function(reject, resolve) {
-    //2¡¢Ö´ÐÐsqlÓï¾ä
+    //2ï¿½ï¿½Ö´ï¿½ï¿½sqlï¿½ï¿½ï¿½
     connection.query(sql, parmas, function(error, results, fields) {
       if (error) throw error;
       reject(results);
       
     });
-    //3¡¢¹Ø±ÕÁ¬½Ó
+    //3ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½
     connection.end();
   });
 };

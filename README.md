@@ -22,7 +22,7 @@
 ## 安装步骤
 
 ```
-git clone https://github.com/cnniit/wxad-nodejs-express.git      // 把模板下载到本地
+git clone https://github.com/cnniit/wxad-nodejs-express.git      // 把仓库下载到本地
 cd wxad-nodejs-express    // 进入模板目录
 npm install         // 安装项目依赖，等待安装完成之后，安装失败可用 cnpm 或 yarn
 

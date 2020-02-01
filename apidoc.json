@@ -1,0 +1,15 @@
+
+{
+    "name": "广告推广统计项目",
+    "version": "1.0.0",
+    "description": "API文档", 
+    "title": "cms-server API",  
+    "url" : "http://ent.npmjs.top/apiv1", 
+    "sampleUrl": "http://ent.npmjs.top/apiv1", 
+    "forceLanguage":"zh-cn",
+    "template": {
+      "withCompare": true,
+      "withGenerator": true
+    }
+  
+}
