@@ -192,25 +192,30 @@ router.post("/multirn", async (req, res) => {
   var source = req.body.srcpath;
   var destdir = req.body.destdir;
   var links = req.body.links;
+
   var arr = [];
   for (var i = 0; i < links.length; i++) {
     var timestamp = new Date().getTime();
     await trycatchHandler.CopyDirectory(source, destdir + "/" + timestamp);
 
+    var p = {
+      code : 0,
+      destdir: destdir,
+      link: links[i]
+    }
+    
     try {
       fs.renameSync(
         destdir + "/" + timestamp,
         destdir + "/" + links[i]
       );
+      p.code = 1
      }
      catch (e) {
-      res.send({"code":e.code});
+      p.code = 0
      }
     // console.log(JSON.parse(links)[i])
-    var p = {
-      destdir: destdir,
-      link: links[i]
-    };
+
     arr.push(p);
   }
   res.send(arr)
@@ -226,15 +231,19 @@ router.post("/multirn", async (req, res) => {
  * @apiParam (path参数) {Number} fromindex 
  * @apiParam (path参数) {Number} toindex 
    * @apiSuccessExample {json} 成功返回:
-{
-    "code": "1",
-    "tpl": 开始后缀序号 - 结束后缀序号
-}
+[
+    {
+        "code": 1,
+        "tpl": 后缀序号
+    }
+]
   @apiErrorExample {json} 失败返回:
-{
-    "code": "0",
-    "tpl": 开始后缀序号 - 结束后缀序号
-}
+[
+    {
+        "code": 0,
+        "tpl": 后缀序号
+    }
+]
  * @apiSampleRequest http://ent.npmjs.top/apiv1/indexrn
  * @apiGroup 推广页管理
  * @apiVersion 1.0.0
@@ -245,24 +254,26 @@ router.post("/indexrn", async (req, res) => {
   var fromindex = req.body.fromindex;
   var toindex = req.body.toindex;
   var timestamp = new Date().getTime();
-
-  var p = {
-    code: 0,
-    tpl: `${fromindex}-${toindex}`
-  };
+  var succ = [],fail = [],arr = []
   for (var i = fromindex; i <= toindex; i++) {
+    var p = {
+      code : 0,
+      tpl : i
+    }
     var timestamp = new Date().getTime();
     await trycatchHandler.CopyDirectory(source, destdir + "/" + timestamp);
     try {
       fs.renameSync(destdir + "/" + timestamp, destdir + "/" + i);     
-      p.code='1' 
+      p.code = 1
+      succ.push(p)
     } 
     catch (e) {
-      // res.send({"code":e.code});
-      p.code='0'
+      p.code = 0
+      fail.push(p)
      }
+     arr.push(p)
   }
-  res.send(p)
+  res.send(arr)
 
 });
 
@@ -273,12 +284,15 @@ router.post("/indexrn", async (req, res) => {
  * @apiParam (path参数) {String} table_name
  * @apiSampleRequest http://ent.npmjs.top/apiv1/singlecr
  * @apiSuccessExample {json} 成功返回:
-                   {
-                        "code": "1",
-                        "tpl": 表名
-                    }
+{
+    "code": 1,
+    "tpl": 表名
+}
   @apiErrorExample {json} 失败返回:
-                    Error 0: 
+{
+    "code": 0,
+    "tpl": 表名
+}
  * @apiGroup 基础管理
  * @apiVersion 1.0.0
  */
@@ -290,12 +304,14 @@ router.post("/singlecr", async (req, res) => {
     tpl: `${table_name}`
   };
 
+var sql0 = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA ='koacms' and table_name = '"+table_name +"'"
+
   var sql =
     "CREATE TABLE " +
     table_name +
     " (" +
     "`id` int(11) NOT NULL AUTO_INCREMENT," +
-    "`linkname` varchar(255) DEFAULT NULL," +
+    "`linkname` varchar(255) DEFAULT '"+table_name+"'," +
     "`cnzzdm` varchar(255) DEFAULT NULL," +
     "   `cnzztj` varchar(255) DEFAULT NULL," +
     "   `utq2` varchar(255) DEFAULT NULL," +
@@ -304,18 +320,24 @@ router.post("/singlecr", async (req, res) => {
     "   `byzh` varchar(255) DEFAULT NULL," +
     "   `bPC` varchar(255) DEFAULT NULL," +
     "   PRIMARY KEY (`id`)" +
-    "   )ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8";
-
+    "   )ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8" 
+    
     try {
-      await DB.query(sql);
-        var sql = "insert into " + table_name + "(linkname) VALUES( ?)";
-        var Sql_Params = ["fake"];
-        await DB.query(sql, Sql_Params);
-      p.code='1' 
+      var r = await DB.query(sql0);
+      if(r.length > 0){
+        throw new Error('表已经存在')
+      }else{
+        await DB.query(sql);
+          var sql2 = "insert into " + table_name + "(linkname) VALUES( ?)";
+          var Sql_Params = [table_name];
+          await DB.query(sql2, Sql_Params);
+        p.code=1
+      }
     } catch (error) {
-      console.log(error)
-      p.code='0' 
+      console.log(error.message)
+      p.code=0
     }
+
 
   res.send(p)
 });
@@ -328,12 +350,19 @@ router.post("/singlecr", async (req, res) => {
  * @apiParam (path参数) {Number} fromindex 
  * @apiParam (path参数) {Number} toindex 
  * @apiSuccessExample {json} 成功返回:
-{
-    "code": "1",
-    "tpl": 前缀+开始数字-前缀+结束数字
-}
+[
+    {
+        "code": 1,
+        "tpl": 表名前缀 + 后缀数字
+    }
+]
   @apiErrorExample {json} 失败返回:
-                    Error 0: 
+[
+    {
+        "code": 0,
+        "tpl": 表名前缀 + 后缀数字
+    }
+]
  * @apiSampleRequest http://ent.npmjs.top/apiv1/multicr
  * @apiGroup 基础管理
  * @apiVersion 1.0.0
@@ -342,19 +371,57 @@ router.post("/multicr", async (req, res) => {
   var prefix_name = req.body.prefix_name;
   var fromindex = req.body.fromindex;
   var toindex = req.body.toindex;
-  var a = prefix_name + fromindex;
-  var b = prefix_name + toindex;
+  // var a = prefix_name + fromindex;
+  // var b = prefix_name + toindex;
+  var succ = [],fail = [],ab = '',arr = []
 
+  for(var i = fromindex;i <= toindex;i++){
+     
   var p = {
-    code: 0,
-    tpl: `${a}-${b}`
-  };
-  var sql ="CALL myproce3(?,?,?)";
-  var Sql_Params = [prefix_name,fromindex,toindex];
-  await DB.query(sql,Sql_Params)
-  p.code='1' 
-  
-  res.send(p)
+    code : 0,
+    tpl: prefix_name + i
+  }
+    ab = prefix_name + i
+    sql0 = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA ='koacms' and table_name = '"+ ab +"'"
+    try {
+      var r = await DB.query(sql0);
+      if(r.length > 0){
+        p.code = 0
+        fail.push(ab)
+        throw new Error('表已经存在')
+      }else{
+        p.code = 1
+        succ.push(ab)
+        if(succ.length > 0){
+          // throw new Error('表都已经存在')
+          var sql =
+          "CREATE TABLE " +
+          ab +
+          " (" +
+          "`id` int(11) NOT NULL AUTO_INCREMENT," +
+          "`linkname` varchar(255) DEFAULT '"+ ab +"'," +
+          "`cnzzdm` varchar(255) DEFAULT NULL," +
+          "   `cnzztj` varchar(255) DEFAULT NULL," +
+          "   `utq2` varchar(255) DEFAULT NULL," +
+          "   `utq3` varchar(255) DEFAULT NULL," +
+          "   `byjc` varchar(255) DEFAULT NULL," +
+          "   `byzh` varchar(255) DEFAULT NULL," +
+          "   `bPC` varchar(255) DEFAULT NULL," +
+          "   PRIMARY KEY (`id`)" +
+          "   )ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8" 
+          var sql2 = "insert into " + ab + "(linkname) VALUES( ?)";
+          var Sql_Params = [ab];
+          await DB.query(sql)
+          await DB.query(sql2,Sql_Params)
+        }
+      }
+    } catch (error) {
+      console.log(error.message)
+      p.code=0
+    }
+    arr.push(p)
+  }
+  res.send(arr)
 
 });
 
@@ -378,7 +445,7 @@ router.get("/dm", async (req, res) => {
  * @api {POST} /dmDoAdd 增加代码
  * @apiDescription 增加一个统计代码
  * @apiName dmDoAdd
- * @apiParam (form-data参数) {String} linkname 
+ * @apiParam (form-data参数) {String} linkname 必填
  * @apiParam (form-data参数) {String} cnzzdm 
  * @apiParam (form-data参数) {String} utq2 
  * @apiParam (form-data参数) {String} utq3 
@@ -407,7 +474,7 @@ router.get("/dm", async (req, res) => {
     //获取提交的数据以及图片上传成功返回的图片信息
     //
     // console.log(fields);  /*获取表单的数据*/
-    
+    if(fields.linkname[0] == undefined) return '代码名必填'
     var linkname = fields.linkname[0];
     var cnzzdm = fields.cnzzdm[0];
     var cnzztj = "";
@@ -521,7 +588,7 @@ router.post("/dmdelete", async (req, res) => {
  * @apiDescription 根据ID修改某个统计代码
  * @apiName dmDoEdit
  * @apiParam (form-data参数) {Number} id 必填
- * @apiParam (form-data参数) {String} linkname 必填 
+ * @apiParam (form-data参数) {String} linkname 
  * @apiParam (form-data参数) {String} cnzzdm 
  * @apiParam (form-data参数) {String} utq2 
  * @apiParam (form-data参数) {String} utq3 

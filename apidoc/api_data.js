@@ -29,7 +29,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "linkname",
-            "description": ""
+            "description": "<p>必填</p>"
           },
           {
             "group": "form-data参数",
@@ -125,7 +125,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "linkname",
-            "description": "<p>必填</p>"
+            "description": ""
           },
           {
             "group": "form-data参数",
@@ -284,7 +284,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功返回:",
-          "content": "{\n    \"code\": \"1\",\n    \"tpl\": 前缀+开始数字-前缀+结束数字\n}",
+          "content": "[\n    {\n        \"code\": 1,\n        \"tpl\": 表名前缀 + 后缀数字\n    }\n]",
           "type": "json"
         }
       ]
@@ -293,7 +293,7 @@ define({ "api": [
       "examples": [
         {
           "title": "失败返回:",
-          "content": "Error 0:",
+          "content": "[\n    {\n        \"code\": 0,\n        \"tpl\": 表名前缀 + 后缀数字\n    }\n]",
           "type": "json"
         }
       ]
@@ -336,7 +336,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功返回:",
-          "content": "{\n     \"code\": \"1\",\n     \"tpl\": 表名\n }",
+          "content": "{\n    \"code\": 1,\n    \"tpl\": 表名\n}",
           "type": "json"
         }
       ]
@@ -345,7 +345,7 @@ define({ "api": [
       "examples": [
         {
           "title": "失败返回:",
-          "content": "Error 0:",
+          "content": "{\n    \"code\": 0,\n    \"tpl\": 表名\n}",
           "type": "json"
         }
       ]
@@ -399,7 +399,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功返回:",
-          "content": "{\n    \"code\": \"1\",\n    \"tpl\": 开始后缀序号 - 结束后缀序号\n}",
+          "content": "[\n    {\n        \"code\": 1,\n        \"tpl\": 后缀序号\n    }\n]",
           "type": "json"
         }
       ]
@@ -408,7 +408,7 @@ define({ "api": [
       "examples": [
         {
           "title": "失败返回:",
-          "content": "{\n    \"code\": \"0\",\n    \"tpl\": 开始后缀序号 - 结束后缀序号\n}",
+          "content": "[\n    {\n        \"code\": 0,\n        \"tpl\": 后缀序号\n    }\n]",
           "type": "json"
         }
       ]

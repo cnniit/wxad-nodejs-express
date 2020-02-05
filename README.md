@@ -8,7 +8,7 @@
 
 
 ## 接口说明
-通过id删除商品：http://localhost:3100/goodDel?id=115
+http://ent.npmjs.top/apidoc
 
 
 ## 功能

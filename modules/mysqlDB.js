@@ -9,7 +9,7 @@ function __connection() {
   var connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "rootroot",
+    password: "root",
     database: "koacms"
   });
   connection.connect();
@@ -30,5 +30,3 @@ exports.query = function(sql, parmas = null) {
     connection.end();
   });
 };
-
-
