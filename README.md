@@ -22,6 +22,7 @@ http://ent.npmjs.top/apidoc
 ## 安装步骤
 
 ```
+先手动在项目根目录下创建文件夹./gen-js/,由于生成js的读写空间
 git clone https://github.com/cnniit/wxad-nodejs-express.git      // 把仓库下载到本地
 cd wxad-nodejs-express    // 进入模板目录
 npm install         // 安装项目依赖，等待安装完成之后，安装失败可用 cnpm 或 yarn
